@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<!-- 
+	■ static contents / style(Design) 분리
+	■ javascript는 ~~.js 로 모듈화가 가능하듯 ~~.css 로 모듈화 가능
+	■ 본 예제에서는 접근방식을 이해하는데 초점(jQuery에서 css의 접근방식 사용)
+		- html element name 접근 	: span{~~}
+		- class attribute 접근 	: .abc{~~}
+		- id attribute 접근 		: #uniqueId{~~}
+		
+	■ jQuery에서 css에서의 접근방식, 문법을 착안하여 만들었다.
+		- html element에 접근하는 문법 : selector(선택자) 문법
+ -->
+<html>
+
+<head>
+	<meta charset="EUC-KR">
+	
+	<script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		
+		
+		/*	//==>onlyCSS02.html 참조<==//
+		■Selector(선택자) : DOM (문서객체모델)을 다루기 위해 Element Object GET
+			-tag 선택자 	: $("elementName")
+			-id 선택자 	: $("#id")
+			-class 선택자	: $(".className")
+			
+		■tag Selector (선택자) 를 이용하여 다양한 사용법을 확인한다.
+			-tag Selector : $( 'element[,element]')
+			-자손 element Selector : $('element [자손element][,element [자손element] ]')
+			-속성 element Selector : $('element[attr|attr=value] [, element[attr|attr=value] ]')
+			-필터 selector(:사용한 경우) : $('element:expression')
+				-Form 필터 selector 	:$('element:입력양식attribute Name')
+				-위치 필터 selector 	:$('element:위치정보')
+				-함수 필터 selector 	:$('element:함수')
+				
+				
+		■Notation 정리
+			위의 모든 유형...==>> expression으로 표기
+		■jQuery( exp1[,exp2]) == $( exp1[,exp2])
+			-exp1 : notaion 정리 참조
+			-exp2 : exp1으로 접근하려는 부수적(?)인 정보 : 아래의 실습으로 확인
+			
+				1. form 필터선택자
+				예> $('input:button')
+					$('input:checkbox') 등등...
+					
+					$('input:selected')
+					$('input:disabled')
+					$('input:enabled')
+					$('input:focus')
+					$('input:checked')
+			
+				2. 위치 필터 선택자 : $(element:위치정보)
+				예> $('element:odd')
+					$('element:even')
+					$('element:first')
+					$('element:last')
+						//even 짝수, odd 홀수
+				3. 함수 필터 선택자 : $(element:function)
+				예> $('element:contains(문자열)')
+					$('element:not(selector)')
+					$('element:eq(index)')
+					$('element:gt(index)')
+					$('element:lt(index)')
+					$('element:lt(index)')
+						//eq(n) : n번째 , gt(n) : n번째 초과 , lt(n) : n번째 미만
+				4. 기타
+				예>$('element:empty')등등...
+			-연산자 종류 : =이외의 연산자는 활용도 낮음.
+				att = value : value와 같은
+				att != value : value와 같지않은
+				att ^= value : value로 시작하는
+				att $= value : value로 끝나는
+				att *= value : value 포함하는
+				
+		■jQuery 제공 function : css() : www.jquery.com : API 참조
+			- css() : 스타일 속성과 관련된 작업에 사용
+			- val() : value GET/SET
+			- html() : 태그를 뺀 text만 출력
+			- text() : 태그 포함하여 출력
+			- click(CallBack Function) : click event시 호출되는 fucntion 등록
+			- trim() : ?
+		*/
+		
+		
+		$(document).ready(function(){
+		
+			/* [1번째]
+			//==>해당하는 Object가 여러개일 경우 Array Return
+			var obj = $('p');
+			alert(obj);
+			
+			//<p> element GET, text 속성출력
+			//==> 출력결과는...
+			var text = obj.html();
+			alert(text);
+			
+			//==>위의 경우, 1번째 <p> element의 내용만 접근?
+			//==> 다른 <p>의 내용을 접근하려면..
+			var p01 = $( obj[0] );
+			alert("1번째 : \n\n"+p01.html());
+			alert("2번째 : \n\n"+$(obj[1]).html());
+			alert("3번째 : \n\n"+$(obj[2]).html());
+			
+			//<p> element를 GET할 조건(?), 검색대상이 되는 구문을 주면(?)
+			alert("$('p', document.forms[1]) 의 결과는...\n\n"+ $('p', document.forms[1]).html());
+			
+			alert("$('p',$('form'))의 결과는...\n\n"+$('p',$('form')).html());
+			alert("$('p',$('form')[0])의 결과는...\n\n"+$('p',$('form')[0]).html());
+			alert("$('p',$('form')[1])의 결과는...\n\n"+$('p',$('form')[1]).html());
+			//*/
+			
+			/*[2번째]
+			
+			alert("변경전:\n\n"+$("form[name='test01']").html());
+			$("form[name='test01']").html("<h1>변경되었나요..</h1)");
+			$("form[name='test01']").css("color","red");
+			
+			alert("변경전:\n\n"+$("form p span").html());
+			$("form p span").html("<h1>다시 확인 변경되었나요..</h1)");
+			$("form p span").css("color","red");
+			//*/
+			
+			/*[3번째]
+			
+			alert("$('form')[0] : \n\n"+$($('form')[0]).html());
+			alert("$('form')[0] : \n\n"+$($('form')[0]).html().trim());
+			alert("$('form')[1] : \n\n"+$($('form')[1]).html());
+			alert("$('form')[1] : \n\n"+$($('form')[1]).html().trim());
+			
+			alert("$('form')[0] : \n\n"+$($('form')[0]).text());
+			alert("$('form')[0] : \n\n"+$($('form')[0]).text().trim());
+			alert("$('form')[1] : \n\n"+$($('form')[1]).text());
+			alert("$('form')[1] : \n\n"+$($('form')[1]).text().trim());
+			//*/
+			
+			///*[4번째]
+			
+			alert("변경전 : \n\n"+$("h1").text());
+			$("h1").text("변경되었나요..");
+			$("h1").css("color","red");
+			
+			alert("변경전 : \n\n"+$("div").text());
+			$("div").text("다시 확인 변경되었나요..");
+			$("div").css("color","red");
+			//*/
+		});
+	</script>
+</head>
+
+<body>
+   <h1>javascript Framework : jQuery 학습</h1>
+   <h2>사용법(?)에 익숙해 지자 </h2>
+      
+   <form name="test01">
+      <p>jQuery 란 ? </p>
+   </form>
+   
+   <div>
+      <p> javascript Framework</p>
+   </div>
+   
+   <form name="test02">
+      <p>Framework 이란 ?
+         <span> 확장,재사용 가능한 Lib</span>
+      </p>
+   </form>
+
+</body>
+	
+</html>

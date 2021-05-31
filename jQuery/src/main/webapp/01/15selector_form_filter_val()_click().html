@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<!-- 
+	■ static contents / style(Design) 분리
+	■ javascript는 ~~.js 로 모듈화가 가능하듯 ~~.css 로 모듈화 가능
+	■ 본 예제에서는 접근방식을 이해하는데 초점(jQuery에서 css의 접근방식 사용)
+		- html element name 접근 	: span{~~}
+		- class attribute 접근 	: .abc{~~}
+		- id attribute 접근 		: #uniqueId{~~}
+		
+	■ jQuery에서 css에서의 접근방식, 문법을 착안하여 만들었다.
+		- html element에 접근하는 문법 : selector(선택자) 문법
+ -->
+<html>
+
+<head>
+	<meta charset="EUC-KR">
+	
+	<script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		
+		
+		/*	//==>onlyCSS02.html 참조<==//
+		■Selector(선택자) : DOM (문서객체모델)을 다루기 위해 Element Object GET
+			-tag 선택자 	: $("elementName")
+			-id 선택자 	: $("#id")
+			-class 선택자	: $(".className")
+			
+		■tag Selector (선택자) 를 이용하여 다양한 사용법을 확인한다.
+			-tag Selector : $( 'element[,element]')
+			-자손 element Selector : $('element [자손element][,element [자손element] ]')
+			-속성 element Selector : $('element[attr|attr=value] [, element[attr|attr=value] ]')
+			-필터 selector(:사용한 경우) : $('element:expression')
+				1. form 필터선택자
+				예> $('input:button')
+					$('input:checkbox') 등등...
+					
+					$('input:selected')
+					$('input:disabled')
+					$('input:enabled')
+					$('input:focus')
+					$('input:checked')
+			
+			-연산자 종류 : =이외의 연산자는 활용도 낮음.
+				att = value : value와 같은
+				att != value : value와 같지않은
+				att ^= value : value로 시작하는
+				att $= value : value로 끝나는
+				att *= value : value 포함하는
+				
+		■jQuery 제공 function : css() : www.jquery.com : API 참조
+			- css() : 스타일 속성과 관련된 작업에 사용
+			- val() : value GET/SET
+			- click(CallBack Function) : click event시 호출되는 fucntion 등록
+		*/
+		
+		$(document).ready(function(){
+			//==> 각각의 출력결과 이해.
+			
+			alert( $('input:button').val());
+			
+			var checkedObj = $('input:checked');
+			alert( checkedObj.val());
+			
+			alert($($('input:checked')[0]).val());
+			alert($($('input:checked')[1]).val());
+			alert($($('input:checked')[2]).val());
+			
+			alert($('input:radio:checked').val());
+			alert($($('input:radio:checked')[0]).val());
+			alert($($('input:radio:checked')[1]).val());
+			
+			alert($('input:radio:checked[name="cpu"]').val());
+		});
+			
+		//==> click Evnet 등록하기
+		$(function(){
+			
+			$( $('input:checkbox')).click(function(){
+				alert( $(this).val() + "Click");
+			})
+		});
+	</script>
+</head>
+
+<body>
+
+   <form method='post' name="myForm">
+   
+      이름<input type='text' name='name' value='이름입력'><br>
+      주소<input type='text' name='addr' ><br><p>
+
+      사용중인 소프트웨어 선택<br>
+      <input type='checkbox' name='sw' value='hwp' checked="checked">hwp<br>
+      <input type='checkbox' name='sw' value='MS/WORD' checked="checked">MS/WORD<br>
+      <input type='checkbox' name='sw' value='EXCEL'>EXCEL<br><p>
+
+      사용중인 OS 선택<br>
+      <input type='radio' name='os' value='win2000' checked="checked">win2000<br>
+      <input type='radio' name='os' value='linux'>리눅스<br><p>
+
+      사용중인 CPU 선택<br>
+      <input type='radio' name='cpu' value='i3'>i3<br>
+      <input type='radio' name='cpu' value='i5'>i5<br>
+      <input type='radio' name='cpu' value='i7' checked="checked">i7<br>
+
+      <input type="button"  value='button전송'>
+      <input type="submit" value="submit전송">
+      <input type='reset' value='취소'>
+   
+   </form>
+
+</body>
+	
+</html>
